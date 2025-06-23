@@ -13,12 +13,13 @@ from ml.model import (
     train_model,
 )
 
-project_path = \\wsl.localhost\Ubuntu\home\jjb41\Deploying-a-Scalable-ML-Pipeline-with-FastAPI\
+project_path = "/home/jjb41/Deploying-a-Scalable-ML-Pipeline-with-FastAPI"
 data_path = os.path.join(project_path, "data", "census.csv")
 print(data_path)
 data = pd.read_csv(data_path)
+# y = data.pop("salary")
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, test_size=0.20)
+train, test = train_test_split(data, random_state=42, test_size=0.2)
 
 # DO NOT MODIFY
 cat_features = [
@@ -32,6 +33,7 @@ cat_features = [
     "native-country",
 ]
 
+# use the process_data function provided to process the data
 X_train, y_train, encoder, lb = process_data(
     train,
     categorical_features=cat_features,
@@ -63,7 +65,7 @@ model = load_model(
 ) 
 
 # use the inference function to run the model inferences on the test dataset.
-preds = inference(model, X) 
+preds = inference(model, test) 
 
 # iterate through the categorical features
 for col in cat_features:

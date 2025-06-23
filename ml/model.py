@@ -61,6 +61,7 @@ def inference(model, X):
         Predictions from the model.
     """
     preds = model.predict(X)
+    return preds
 
 def save_model(model, path):
     """ Serializes model to a file.
@@ -77,6 +78,7 @@ def save_model(model, path):
 
 def load_model(path):
     """ Loads pickle file from `path` and returns it."""
+    model_filepath = 'trained_model.pkl'
     pickle.load(open(model_filepath, 'rb'))
 
 
