@@ -17,8 +17,8 @@ project_path = "/home/jjb41/Deploying-a-Scalable-ML-Pipeline-with-FastAPI"
 data_path = os.path.join(project_path, "data", "census.csv")
 print(data_path)
 data = pd.read_csv(data_path)
-# y = data.pop("salary")
 
+# split the provided data to have a train dataset and a test dataset
 train, test = train_test_split(data, random_state=42, test_size=0.2)
 
 # DO NOT MODIFY
@@ -52,6 +52,8 @@ X_test, y_test, _, _ = process_data(
 
 # use the train_model function to train the model on the training dataset
 model = train_model(X_train, y_train) 
+if model is None:
+    print("Error: Model object in train_model line 54 is None and cannot make predictions.")
 
 # save the model and the encoder
 model_path = os.path.join(project_path, "model", "model.pkl")
@@ -65,7 +67,12 @@ model = load_model(
 ) 
 
 # use the inference function to run the model inferences on the test dataset.
-preds = inference(model, test) 
+# preds = inference(model, X_test) 
+# remove b4 submission:
+if model is not None:
+    preds = inference(model, X_test)
+else:
+    print("Error: Model object in train_model line 72 is None and cannot make predictions.")
 
 # iterate through the categorical features
 for col in cat_features:

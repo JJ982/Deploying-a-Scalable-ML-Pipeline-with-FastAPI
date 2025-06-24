@@ -63,6 +63,12 @@ def inference(model, X):
     preds = model.predict(X)
     return preds
 
+    # remove before submission
+    if model is not None:
+        preds = model.predict(X)
+    else:
+        print("Error: Model object in model.py is None and cannot make predictions.")
+
 def save_model(model, path):
     """ Serializes model to a file.
 
@@ -73,13 +79,15 @@ def save_model(model, path):
     path : str
         Path to save pickle file.
     """
-    model_filepath = 'trained_model.pkl'
-    pickle.dump(model,open(model_filepath, 'wb'))
+    #model_filepath = 'trained_model.pkl'
+    #pickle.dump(model,open(model_filepath, 'wb'))
+    pickle.dump(model,open(path, 'wb'))
 
 def load_model(path):
     """ Loads pickle file from `path` and returns it."""
-    model_filepath = 'trained_model.pkl'
-    pickle.load(open(model_filepath, 'rb'))
+    #model_filepath = 'trained_model.pkl'
+    #pickle.load(open(model_filepath, 'rb'))
+    pickle.load(open(path, 'rb'))
 
 
 def performance_on_categorical_slice(
@@ -121,10 +129,10 @@ def performance_on_categorical_slice(
     X_slice, y_slice, _, _ = process_data(
         data[data[column_name] == slice_value],
         categorical_features = categorical_features,
-        label = label,
+        label = "salary",
         training = False,
         encoder = encoder,
-        lb = lb
+        lb = lb,
     )
     preds = inference(model, X_slice)
     precision, recall, fbeta = compute_model_metrics(y_slice, preds)
