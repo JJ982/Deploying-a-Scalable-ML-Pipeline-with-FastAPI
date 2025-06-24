@@ -22,6 +22,7 @@ def train_model(X_train, y_train):
     model = RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42)
     model.fit(X_train, y_train)
     return model
+    print(f"Model loaded: {model}") # if None, model didn't load
 
 
 def compute_model_metrics(y, preds):
@@ -85,9 +86,7 @@ def save_model(model, path):
 
 def load_model(path):
     """ Loads pickle file from `path` and returns it."""
-    #model_filepath = 'trained_model.pkl'
-    #pickle.load(open(model_filepath, 'rb'))
-    pickle.load(open(path, 'rb'))
+    return pickle.load(open(path, 'rb'))
 
 
 def performance_on_categorical_slice(
