@@ -1,28 +1,28 @@
 import pytest
-# TODO: add necessary import
+from sklearn.datasets import make_classification
+from ml.model import train_model
+from ml.data import apply_label
 
-# TODO: implement the first test. Change the function name and input as needed
-def test_one():
+def test_train_model():
     """
-    # add description for the first test
+    This test checks that the function creates a model.
     """
-    # Your code here
-    pass
+    X_train, y_train = make_classification(
+        n_samples=80, 
+        random_state=42
+    )
+    model = train_model(X_train, y_train)
+    assert model is not None
 
+def test_apply_label_returns_expected_values_with_valid_inputs():
+    """
+    This test checks that when the binary label passed is 0, <=50K is returned and when the binary label is 1, >50K is returned.
+    """
+    assert apply_label([0]) == "<=50K"
+    assert apply_label([1]) == ">50K"
 
-# TODO: implement the second test. Change the function name and input as needed
-def test_two():
+def test_apply_label_raises_error_on_invalid_input():
     """
-    # add description for the second test
+    This test checks that when the binary label passed is neither 0 nor 1, "Invalid input" is returned.
     """
-    # Your code here
-    pass
-
-
-# TODO: implement the third test. Change the function name and input as needed
-def test_three():
-    """
-    # add description for the third test
-    """
-    # Your code here
-    pass
+    assert apply_label([2]) == "Invalid input"

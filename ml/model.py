@@ -19,10 +19,9 @@ def train_model(X_train, y_train):
     model
         Trained machine learning model.
     """
-    model = RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42)
+    model = RandomForestClassifier(n_estimators=100, random_state=42)
     model.fit(X_train, y_train)
     return model
-    print(f"Model loaded: {model}") # if None, model didn't load
 
 
 def compute_model_metrics(y, preds):
@@ -46,7 +45,6 @@ def compute_model_metrics(y, preds):
     recall = recall_score(y, preds, zero_division=1)
     return precision, recall, fbeta
 
-
 def inference(model, X):
     """ Run model inferences and return the predictions.
 
@@ -64,12 +62,6 @@ def inference(model, X):
     preds = model.predict(X)
     return preds
 
-    # remove before submission
-    if model is not None:
-        preds = model.predict(X)
-    else:
-        print("Error: Model object in model.py is None and cannot make predictions.")
-
 def save_model(model, path):
     """ Serializes model to a file.
 
@@ -80,14 +72,11 @@ def save_model(model, path):
     path : str
         Path to save pickle file.
     """
-    #model_filepath = 'trained_model.pkl'
-    #pickle.dump(model,open(model_filepath, 'wb'))
     pickle.dump(model,open(path, 'wb'))
 
 def load_model(path):
     """ Loads pickle file from `path` and returns it."""
     return pickle.load(open(path, 'rb'))
-
 
 def performance_on_categorical_slice(
     data, column_name, slice_value, categorical_features, label, encoder, lb, model
